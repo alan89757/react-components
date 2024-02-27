@@ -18,8 +18,8 @@
     "prepare": "tsdx build",
     "size": "size-limit",
     "analyze": "size-limit --why",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "storybook": "storybook dev --debug-webpack -p 6006",
+    "build-storybook": "storybook build"
   },
   "peerDependencies": {
     "react": ">=16"
@@ -69,10 +69,12 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
+    "@storybook/react-webpack5": "^7.0.7",
     "antd": "^5.14.2",
     "autoprefixer": "^10.4.17",
     "cssnano": "^6.0.5",
     "postcss": "^8.4.35",
-    "rollup-plugin-postcss": "^4.0.2"
+    "rollup-plugin-postcss": "^4.0.2",
+    "storybook": "^7.6.17"
   }
 }
