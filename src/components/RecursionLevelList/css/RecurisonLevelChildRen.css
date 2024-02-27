@@ -35,6 +35,12 @@
   padding-left: 28px;
   margin-top: 8px;
 }
+.stats-item-wrap {
+  display: flex;
+}
+.stats-speedrate {
+  display: flex;
+}
 .group4NoSpeed-child {
   display: flex;
   flex-direction: row;

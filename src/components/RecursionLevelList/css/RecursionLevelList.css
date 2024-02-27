@@ -353,6 +353,10 @@
   margin-top: 2px;
   cursor: pointer;
 }
+.arrow_up_down_icon {
+  width: 20px;
+  height: 20px;
+}
 .expand_1_2 {
   font-size: 18px;
   margin-top: 3px;
