@@ -19,6 +19,8 @@ interface IPropType {
 export default function RecursionLevelList(props: IPropType) {
   const { list = [], callback, stats = [] } = props;
   const [preClickIdArr, setPreClickIdArr] = useState([]);
+
+  // 切换箭头打开/关闭
   const openClose = (item: any) => {
     const currentVal = item.name;
     let preClickIdArr2 = JSON.parse(JSON.stringify(preClickIdArr));
@@ -29,6 +31,8 @@ export default function RecursionLevelList(props: IPropType) {
     }
     setPreClickIdArr(preClickIdArr2);
   };
+
+  // 判断是否默认打开
   const hasPreClickId = (arr: any, name: any) => {
     if (arr.indexOf(name) > -1) {
       return true;
@@ -108,11 +112,19 @@ export default function RecursionLevelList(props: IPropType) {
                         <div className={index == 0 ? 'group3Top' : 'group3'}>
                           {hasPreClickId(preClickIdArr, item.name) ? (
                             <div className="expand_1_1 iconfont icon-expand_1_1">
-                              <img src="https://app.static.wangxiao.cn/libs/images/arrow1_down.svg" alt="" className="arrow_up_down_icon" />
+                              <img
+                                src="https://app.static.wangxiao.cn/libs/images/arrow1_down.svg"
+                                alt=""
+                                className="arrow_up_down_icon"
+                              />
                             </div>
                           ) : (
                             <div className="expand_1_2 iconfont icon-expand_1_2">
-                              <img src="https://app.static.wangxiao.cn/libs/images/arrow1_right.svg" alt="" className="arrow_up_down_icon" />
+                              <img
+                                src="https://app.static.wangxiao.cn/libs/images/arrow1_right.svg"
+                                alt=""
+                                className="arrow_up_down_icon"
+                              />
                             </div>
                           )}
                           <div className="text1Wrap">

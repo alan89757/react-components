@@ -2,22 +2,22 @@ import React from 'react';
 import { Meta, Story } from '@storybook/react';
 import { RecursionLevelList } from '../src';
 
-// const meta: Meta = {
-//   title: 'tree',
-//   component: RecursionLevelList,
-//   argTypes: {
-//     children: {
-//       control: {
-//         type: 'text',
-//       },
-//     },
-//   },
-//   parameters: {
-//     controls: { expanded: true },
-//   },
-// };
+const meta: Meta = {
+  title: 'tree',
+  component: RecursionLevelList,
+  argTypes: {
+    children: {
+      control: {
+        type: 'text',
+      },
+    },
+  },
+  parameters: {
+    controls: { expanded: true },
+  },
+};
 
-// export default meta;
+export default meta;
 
 const Template: Story<any> = args => <RecursionLevelList list={[]} />;
 
