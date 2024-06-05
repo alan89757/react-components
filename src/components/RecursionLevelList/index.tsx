@@ -10,7 +10,7 @@ interface IChapterCourse {
   name: string;
   nodeType: string;
   preview?: boolean;
-  next: IChapterCourse[];
+  next?: IChapterCourse[];
 }
 
 interface IPropType {
