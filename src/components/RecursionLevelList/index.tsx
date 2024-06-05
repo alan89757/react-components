@@ -1,5 +1,7 @@
 /* eslint-disable */
 import React, { useState, useEffect } from 'react';
+import SubjectType from "./components/SubjectType"; // 科目类型
+import CommonType from "./components/CommonType"; // 普通类型
 import RecursionLevelChildren from './RecursionLevelChildren';
 import { RoundedProgressBar } from './RoundedProgressBar';
 import { assembleData } from './utils/index';
@@ -7,18 +9,30 @@ import './css/RecursionLevelList.css';
 
 interface IChapterCourse {
   name: string;
+  nodeType: string;
+  preview?: boolean;
   next: IChapterCourse[];
 }
 
 interface IPropType {
   list: IChapterCourse[]; // 产品树
-  stats?: any[]; // 统计数据
+  stats?: any[]; // 统计数据(实时的)
   callback?: Function; // 回调函数，点击当前行自定义处理
 }
 
+// nodeType注释
+/**
+  J-科目类型 P-产品类型 C-章类型 S-节类型 CU-学习单元类型(章) SU-学习单元类型(节)
+  console.log(item.id === it.id && it.nodeType === item.nodeType)
+  nodeType=== CU 和SU   nodetype和id匹配
+  nodeType=== S  nodeType和parentName和name匹配
+  nodeType=== C  nodeType和productId和name匹配
+  nodeType=== p  nodeType和parentId存在，parentId和id一起匹配，不存在直接用id匹配
+*/
+
 export default function RecursionLevelList(props: IPropType) {
   const { list = [], callback, stats = [] } = props;
-  const [preClickIdArr, setPreClickIdArr] = useState([]);
+  const [preClickIdArr, setPreClickIdArr] = useState<string[]>([]);
 
   // 切换箭头打开/关闭
   const openClose = (item: any) => {
@@ -33,145 +47,59 @@ export default function RecursionLevelList(props: IPropType) {
   };
 
   // 判断是否默认打开
-  const hasPreClickId = (arr: any, name: any) => {
-    if (arr.indexOf(name) > -1) {
+  const hasPreClickId = (name: string) => {
+    console.log('00111---', preClickIdArr, name);
+    if (preClickIdArr.indexOf(name) > -1) {
       return true;
     } else {
       return false;
     }
   };
 
-  const findPreview = (next: any) => {
-    const find = (next: any) => {
-      return next.find((item: any) => {
-        if (item.next) {
-          return find(item.next);
-        }
-        if (item.preview) {
-          return true;
-        }
-      });
-    };
-    return !!find(next);
-  };
-
   return (
     <div className="page1">
       <div className="group1">
-        {list &&
-          list.map((item: any, index: number) => {
-            const { next } = item;
-            // 查找是否有试学
-            let isPreivew = findPreview(next);
+        {list.length > 0 ?
+          list.map((item: IChapterCourse, index: number) => {
+            const { next, name, nodeType, preview = false } = item;
             // 学习进度
             const { speedRate = 0, spnum = 0 } = assembleData(item, stats);
-
             return (
-              <div key={item.name}>
+              <div key={name}>
                 <div className="group2">
                   <div
                     onClick={() => {
                       openClose(item);
                     }}
                   >
-                    {item.nodeType === 'J' ? (
-                      <div
-                        className={'group21'}
-                        style={{
-                          marginTop: index > 0 ? 20 : 0,
-                        }}
-                      >
-                        <div className={'group23'}>
-                          <span className="text21"> </span>
-                          <span className={'text22'}>{item.name}</span>
-                        </div>
-                        {hasPreClickId(preClickIdArr, item.name) ? (
-                          <div
-                            className="iconfont  icon-symbol_up"
-                            style={{
-                              marginRight: 20,
-                            }}
-                          ></div>
-                        ) : (
-                          <div
-                            className="iconfont  icon-symbol_down"
-                            style={{
-                              marginRight: 20,
-                            }}
-                          ></div>
-                        )}
-                      </div>
+                    {/* J - 科目类型 */}
+                    {nodeType === 'J' ? (
+                     <SubjectType index={index} name={name} hasPreClickId={hasPreClickId} />
                     ) : (
-                      <div
-                        style={{
-                          paddingTop: 16,
-                          paddingRight: 10,
-                          paddingLeft: 10,
-                        }}
-                      >
-                        <div className={index == 0 ? 'group3Top' : 'group3'}>
-                          {hasPreClickId(preClickIdArr, item.name) ? (
-                            <div className="expand_1_1 iconfont icon-expand_1_1">
-                              <img
-                                src="https://app.static.wangxiao.cn/libs/images/arrow1_down.svg"
-                                alt=""
-                                className="arrow_up_down_icon"
-                              />
-                            </div>
-                          ) : (
-                            <div className="expand_1_2 iconfont icon-expand_1_2">
-                              <img
-                                src="https://app.static.wangxiao.cn/libs/images/arrow1_right.svg"
-                                alt=""
-                                className="arrow_up_down_icon"
-                              />
-                            </div>
-                          )}
-                          <div className="text1Wrap">
-                            <span className={'text1'}>{item.name}</span>
-                            {isPreivew ? (
-                              <span className="text10">试学</span>
-                            ) : null}
-                          </div>
-                        </div>
-                        <div className="group4">
-                          {speedRate ? (
-                            <RoundedProgressBar
-                              progress={speedRate}
-                              width={40}
-                              height={6}
-                              color="#E51600"
-                              borderRadius={4}
-                              trailColor={'rgba(0,0,0,0.06)'}
-                            />
-                          ) : null}
-                          {speedRate ? (
-                            <span className="text2">{speedRate * 100}%</span>
-                          ) : null}
-                          <span className="text3">{spnum}人关注</span>
-                        </div>
-                      </div>
+                      <CommonType hasPreClickId={hasPreClickId} name={name} preview={preview} speedRate={speedRate} spnum={spnum} index={index}/>
                     )}
                   </div>
                 </div>
-                {hasPreClickId(preClickIdArr, item.name) ? (
-                  item.next && item.next.length > 0 ? (
+                {/* 是否展开 */}
+                {hasPreClickId(name) ? (
+                  next && next.length > 0 ? (
+                    // 无限递归
                     <RecursionLevelChildren
-                      list={item.next}
+                      list={next}
                       stats={stats}
                       callback={callback}
                     />
-                  ) : (
-                    <div className="group15" key={item.name}>
-                      <div className="group16">
-                        <span className="group18">课程内容正在制作中</span>
-                      </div>
-                    </div>
-                  )
+                  ) : null
                 ) : null}
               </div>
             );
-          })}
+          }) : (
+            <div className="group15">
+              <div className="group16">
+                <span className="group18">课程内容正在制作中</span>
+              </div>
+            </div>
+          )}
       </div>
     </div>
   );

@@ -6,6 +6,9 @@ import './css/RecurisonLevelChildRen.css';
 interface IChapterCourse {
   name: string;
   next: IChapterCourse[];
+  nodeType: string;
+  isPurchase?: boolean; // 是否购买
+  preview?: boolean;
 }
 interface IPropType {
   list: IChapterCourse[]; // 列表
@@ -354,15 +357,14 @@ export default function RecursionLevelChildren(props: IPropType) {
 
   return (
     <div>
-      {list &&
-        list.map((item: any) => {
+      {list.map((item: IChapterCourse) => {
+          const { name, next, nodeType, preview, isPurchase } = item;
           // 学习进度
           const currentData = assembleData(item, stats);
-          const { nodeType, preview, isPurchase } = item;
-          if (item.next && item.next.length > 0) {
+          if (next && next.length > 0) {
             return (
-              <div key={item.name}>
-                <div className="group2-child" key={item.name}>
+              <div key={name}>
+                <div className="group2-child" key={name}>
                   <div
                     onClick={() => {
                       openClose(item);
@@ -370,7 +372,7 @@ export default function RecursionLevelChildren(props: IPropType) {
                   >
                     <div className="group3-child">
                       {nodeType == 'P' ? (
-                        hasPreClickId(preClickIdArr, item.name) ? (
+                        hasPreClickId(preClickIdArr, name) ? (
                           <div className="expand_1_1 iconfont icon-expand_1_1 ">
                             <img
                               src="https://app.static.wangxiao.cn/libs/images/arrow2_down.svg"
@@ -389,7 +391,7 @@ export default function RecursionLevelChildren(props: IPropType) {
                         )
                       ) : null}
                       {nodeType == 'C' ? (
-                        hasPreClickId(preClickIdArr, item.name) ? (
+                        hasPreClickId(preClickIdArr, name) ? (
                           <div className="IconExpand2-svg">
                             <img
                               src="https://app.static.wangxiao.cn/libs/images/arrow2_down.svg"
@@ -408,7 +410,7 @@ export default function RecursionLevelChildren(props: IPropType) {
                         )
                       ) : null}
                       {nodeType == 'S' ? (
-                        hasPreClickId(preClickIdArr, item.name) ? (
+                        hasPreClickId(preClickIdArr, name) ? (
                           <div className="IconExpand2-svg">
                             <img
                               src="https://app.static.wangxiao.cn/libs/images/arrow2_down.svg"
@@ -430,7 +432,7 @@ export default function RecursionLevelChildren(props: IPropType) {
                         className={'text1-child'}
                         style={{ fontWeight: 400 }}
                       >
-                        {item.name}
+                        {name}
                       </span>
                     </div>
                   </div>
@@ -438,9 +440,9 @@ export default function RecursionLevelChildren(props: IPropType) {
                     {RenderProgress({ ...item, ...currentData })}
                   </div>
                 </div>
-                {hasPreClickId(preClickIdArr, item.name) ? (
+                {hasPreClickId(preClickIdArr, name) ? (
                   <RecursionLevelChildren
-                    list={item.next}
+                    list={next}
                     stats={stats}
                     callback={callback}
                   />
@@ -449,7 +451,7 @@ export default function RecursionLevelChildren(props: IPropType) {
             );
           } else {
             return nodeType === 'CU' || nodeType === 'SU' ? (
-              <div className={'group5-child'} key={item.name}>
+              <div className={'group5-child'} key={name}>
                 <div
                   onClick={() =>
                     (preview || isPurchase) &&
@@ -459,7 +461,7 @@ export default function RecursionLevelChildren(props: IPropType) {
                 >
                   <div className="group6-child">
                     <div className="children6-child">{renderIcon(item)}</div>
-                    <span className={'text4-child'}>{item.name}</span>
+                    <span className={'text4-child'}>{name}</span>
                   </div>
                   <div className="group7-child">
                     {RenderProgress({ ...item, ...currentData })}
@@ -467,14 +469,14 @@ export default function RecursionLevelChildren(props: IPropType) {
                 </div>
               </div>
             ) : (
-              <div className="group2-child" key={item.name}>
+              <div className="group2-child" key={name}>
                 <div
                   onClick={() => {
                     openClose(item);
                   }}
                 >
                   <div className="group3-child">
-                    {hasPreClickId(preClickIdArr, item.name) ? (
+                    {hasPreClickId(preClickIdArr, name) ? (
                       <div className="iconfont IconExpand2 icon-expand_3_1 ">
                         <img
                           src="https://app.static.wangxiao.cn/libs/images/arrow2_down.svg"
@@ -491,7 +493,7 @@ export default function RecursionLevelChildren(props: IPropType) {
                         />
                       </div>
                     )}
-                    <span className="text1-child">{item.name}</span>
+                    <span className="text1-child">{name}</span>
                   </div>
                 </div>
                 <div className="group4-child">
