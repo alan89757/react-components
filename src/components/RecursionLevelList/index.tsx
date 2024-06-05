@@ -74,7 +74,7 @@ export default function RecursionLevelList(props: IPropType) {
                     {nodeType === 'J' ? (
                       <SubjectType index={index} name={name} hasPreClickId={hasPreClickId} />
                     ) : (
-                      <CommonType hasPreClickId={hasPreClickId} name={name} preview={preview} speedRate={speedRate} spnum={spnum} index={index}/>
+                      <CommonType hasPreClickId={hasPreClickId} name={name} preview={preview} speedRate={speedRate} spnum={spnum} index={index} />
                     )}
                   </div>
                 </div>
