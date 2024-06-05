@@ -1,9 +1,7 @@
-import 'react-app-polyfill/ie11';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import '../dist/recursion-level-list.cjs.development.css'
 import { RecursionLevelList } from '../dist/index';
-// import { RecursionLevelList } from "../dist/index";
 
 
 
@@ -19,8 +17,8 @@ const list = [
               "parentName": "证书详情-去学习",
               "preview": true,
               "productId": "PROD100000261",
-              "speedRate": "0",
-              "spnum": 0,
+              "speedRate": "0.2",
+              "spnum": 20,
               "units": [
                   {
                       "downloadable": false,
@@ -34,8 +32,8 @@ const list = [
                       "previewLength": 60,
                       "productId": "PROD100000261",
                       "productName": "证书详情-去学习",
-                      "speedRate": "0",
-                      "spnum": 0,
+                      "speedRate": "0.3",
+                      "spnum": 30,
                       "type": 3,
                       "uncoil": true
                   }
@@ -54,8 +52,8 @@ const list = [
                       "previewLength": 60,
                       "productId": "PROD100000261",
                       "productName": "证书详情-去学习",
-                      "speedRate": "0",
-                      "spnum": 0,
+                      "speedRate": "0.4",
+                      "spnum": 40,
                       "type": 3,
                       "uncoil": true,
                       "isUnit": true
@@ -65,8 +63,8 @@ const list = [
       ],
       "nodeType": "P",
       "preview": true,
-      "speedRate": "0",
-      "spnum": 0,
+      "speedRate": "0.5",
+      "spnum": 10,
       "type": 1
   }
 ];

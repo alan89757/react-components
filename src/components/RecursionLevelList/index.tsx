@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import SubjectType from "./components/SubjectType"; // 科目类型
 import CommonType from "./components/CommonType"; // 普通类型
 import RecursionLevelChildren from './RecursionLevelChildren';
-import { RoundedProgressBar } from './RoundedProgressBar';
 import { assembleData } from './utils/index';
 import './css/RecursionLevelList.css';
 
@@ -48,7 +47,6 @@ export default function RecursionLevelList(props: IPropType) {
 
   // 判断是否默认打开
   const hasPreClickId = (name: string) => {
-    console.log('00111---', preClickIdArr, name);
     if (preClickIdArr.indexOf(name) > -1) {
       return true;
     } else {
@@ -74,7 +72,7 @@ export default function RecursionLevelList(props: IPropType) {
                   >
                     {/* J - 科目类型 */}
                     {nodeType === 'J' ? (
-                     <SubjectType index={index} name={name} hasPreClickId={hasPreClickId} />
+                      <SubjectType index={index} name={name} hasPreClickId={hasPreClickId} />
                     ) : (
                       <CommonType hasPreClickId={hasPreClickId} name={name} preview={preview} speedRate={speedRate} spnum={spnum} index={index}/>
                     )}

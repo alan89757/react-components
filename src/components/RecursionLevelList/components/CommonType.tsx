@@ -1,4 +1,5 @@
 import React from 'react';
+import { RoundedProgressBar } from '../RoundedProgressBar';
 
 
 interface Iprops {
@@ -46,16 +47,16 @@ const CommonType = (props: Iprops) => {
               </div>
             </div>
             <div className="group4">
-              {/* {speedRate ? (
+              {speedRate ? (
                 <RoundedProgressBar
-                  progress={speedRate}
+                  speedRate={speedRate}
                   width={40}
                   height={6}
                   color="#E51600"
                   borderRadius={4}
                   trailColor={'rgba(0,0,0,0.06)'}
                 />
-              ) : null} */}
+              ) : null}
               {speedRate ? (
                 <span className="text2">{speedRate * 100}%</span>
               ) : null}

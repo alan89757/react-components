@@ -1,6 +1,8 @@
 /* eslint-disable */
 import React, { useState, useEffect } from 'react';
 import { RoundedProgressBar } from './RoundedProgressBar';
+import { assembleData } from './utils/index';
+import CommonType2 from './components/CommonType2'; // 普通类型
 import './css/RecurisonLevelChildRen.css';
 
 interface IChapterCourse {
@@ -18,7 +20,9 @@ interface IPropType {
 
 export default function RecursionLevelChildren(props: IPropType) {
   const { list = [], callback, stats = [] } = props;
-  const [preClickIdArr, setPreClickIdArr] = useState([]);
+  const [preClickIdArr, setPreClickIdArr] = useState<any>([]);
+
+  // 箭头打开/收起
   const openClose = (item: any) => {
     const currentVal = item.name;
     let preClickIdArr2 = JSON.parse(JSON.stringify(preClickIdArr));
@@ -29,8 +33,10 @@ export default function RecursionLevelChildren(props: IPropType) {
     }
     setPreClickIdArr(preClickIdArr2);
   };
-  const hasPreClickId = (arr: any, name: any) => {
-    if (arr.indexOf(name) > -1) {
+
+  // 判断是否默认打开
+  const hasPreClickId = (name: string) => {
+    if (preClickIdArr.indexOf(name) > -1) {
       return true;
     } else {
       return false;
@@ -131,7 +137,7 @@ export default function RecursionLevelChildren(props: IPropType) {
       <div className="stats-item-wrap">
         <div style={{ position: 'relative', top: 1.5 }}>
           <RoundedProgressBar
-            progress={speedRate}
+            speedRate={speedRate}
             width={40}
             height={6}
             color="#E51600"
@@ -150,7 +156,7 @@ export default function RecursionLevelChildren(props: IPropType) {
             <div className="group12-child">
               <div
                 className="text9-child btn-pointer"
-                onClick={e => {
+                onClick={(e) => {
                   e.stopPropagation();
                   (preview || isPurchase) && callback && callback(item);
                 }}
@@ -182,7 +188,7 @@ export default function RecursionLevelChildren(props: IPropType) {
         {speedRate ? (
           <div className="stats-speedrate">
             <RoundedProgressBar
-              progress={speedRate}
+              speedRate={speedRate}
               width={40}
               height={6}
               color="#E51600"
@@ -199,7 +205,7 @@ export default function RecursionLevelChildren(props: IPropType) {
             <div className="group12-child btn-pointer">
               <span
                 className="text9-child"
-                onClick={e => {
+                onClick={(e) => {
                   e.stopPropagation();
                   (preview || isPurchase) && callback && callback(item);
                 }}
@@ -226,59 +232,6 @@ export default function RecursionLevelChildren(props: IPropType) {
       </div>
     );
   };
-  // 产品树重新组装统计数据
-  function assembleData(item: any, stats: any) {
-    const current: any = stats?.find((it: any) => {
-      // J-科目类型 P-产品类型 C-章类型 S-节类型 CU-学习单元类型(章) SU-学习单元类型(节)
-      // console.log(item.id === it.id && it.nodeType === item.nodeType)
-      // nodeType=== CU 和SU   nodetype和id匹配
-      // nodeType=== S  nodeType和parentName和name匹配
-      // nodeType=== C  nodeType和productId和name匹配
-      // nodeType=== p  nodeType和parentId存在，parentId和id一起匹配，不存在直接用id匹配
-      switch (item.nodeType) {
-        case 'CU':
-        case 'SU':
-          if (item.id === it.id && item.nodeType === it.nodeType) {
-            return true;
-          }
-          break;
-        case 'S':
-          if (
-            item.name === it.name &&
-            item.nodeType === it.nodeType &&
-            item.parentName === it.parentName
-          ) {
-            return true;
-          }
-          break;
-        case 'C':
-          if (
-            item.name === it.name &&
-            item.nodeType === it.nodeType &&
-            item.parentId === it.parentId
-          ) {
-            return true;
-          }
-          break;
-        case 'P':
-          if (item.id === it.id && item.nodeType === it.nodeType) {
-            return true;
-          }
-          break;
-        default:
-          return false;
-      }
-      return;
-    });
-    if (current) {
-      return {
-        ...item,
-        ...current,
-      };
-    } else {
-      return item;
-    }
-  }
   // 直播
   const RenderLiveProgress = (item: any) => {
     const { isUnit, preview, isPurchase } = item;
@@ -315,7 +268,7 @@ export default function RecursionLevelChildren(props: IPropType) {
             <div className="group12-child btn-pointer">
               <span
                 className="text9-child"
-                onClick={e => {
+                onClick={(e) => {
                   e.stopPropagation();
                   (preview || isPurchase) && callback && callback(item);
                 }}
@@ -357,152 +310,97 @@ export default function RecursionLevelChildren(props: IPropType) {
 
   return (
     <div>
-      {list.map((item: IChapterCourse) => {
-          const { name, next, nodeType, preview, isPurchase } = item;
-          // 学习进度
-          const currentData = assembleData(item, stats);
-          if (next && next.length > 0) {
-            return (
-              <div key={name}>
-                <div className="group2-child" key={name}>
-                  <div
-                    onClick={() => {
-                      openClose(item);
-                    }}
-                  >
-                    <div className="group3-child">
-                      {nodeType == 'P' ? (
-                        hasPreClickId(preClickIdArr, name) ? (
-                          <div className="expand_1_1 iconfont icon-expand_1_1 ">
-                            <img
-                              src="https://app.static.wangxiao.cn/libs/images/arrow2_down.svg"
-                              alt=""
-                              className="arrow_up_down_icon"
-                            />
-                          </div>
-                        ) : (
-                          <div className="expand_1_2 iconfont icon-expand_1_2">
-                            <img
-                              src="https://app.static.wangxiao.cn/libs/images/arrow2_right.svg"
-                              alt=""
-                              className="arrow_up_down_icon"
-                            />
-                          </div>
-                        )
-                      ) : null}
-                      {nodeType == 'C' ? (
-                        hasPreClickId(preClickIdArr, name) ? (
-                          <div className="IconExpand2-svg">
-                            <img
-                              src="https://app.static.wangxiao.cn/libs/images/arrow2_down.svg"
-                              alt=""
-                              className="arrow_up_down_icon"
-                            />
-                          </div>
-                        ) : (
-                          <div className="IconShrink2-svg ">
-                            <img
-                              src="https://app.static.wangxiao.cn/libs/images/arrow2_right.svg"
-                              alt=""
-                              className="arrow_up_down_icon"
-                            />
-                          </div>
-                        )
-                      ) : null}
-                      {nodeType == 'S' ? (
-                        hasPreClickId(preClickIdArr, name) ? (
-                          <div className="IconExpand2-svg">
-                            <img
-                              src="https://app.static.wangxiao.cn/libs/images/arrow2_down.svg"
-                              alt=""
-                              className="arrow_up_down_icon"
-                            />
-                          </div>
-                        ) : (
-                          <div className="IconShrink2-svg ">
-                            <img
-                              src="https://app.static.wangxiao.cn/libs/images/arrow2_right.svg"
-                              alt=""
-                              className="arrow_up_down_icon"
-                            />
-                          </div>
-                        )
-                      ) : null}
-                      <span
-                        className={'text1-child'}
-                        style={{ fontWeight: 400 }}
-                      >
-                        {name}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="group4-child">
-                    {RenderProgress({ ...item, ...currentData })}
-                  </div>
-                </div>
-                {hasPreClickId(preClickIdArr, name) ? (
-                  <RecursionLevelChildren
-                    list={next}
-                    stats={stats}
-                    callback={callback}
-                  />
-                ) : null}
-              </div>
-            );
-          } else {
-            return nodeType === 'CU' || nodeType === 'SU' ? (
-              <div className={'group5-child'} key={name}>
-                <div
-                  onClick={() =>
-                    (preview || isPurchase) &&
-                    callback &&
-                    callback({ ...item, ...currentData })
-                  }
-                >
-                  <div className="group6-child">
-                    <div className="children6-child">{renderIcon(item)}</div>
-                    <span className={'text4-child'}>{name}</span>
-                  </div>
-                  <div className="group7-child">
-                    {RenderProgress({ ...item, ...currentData })}
-                  </div>
-                </div>
-              </div>
-            ) : (
+      {list.map((item: IChapterCourse, index: number) => {
+        const { name, next, nodeType, preview, isPurchase } = item;
+        // 学习进度
+        const currentData = assembleData(item, stats);
+        const { speedRate = 0, spnum = 0 } = currentData;
+        if (next && next.length > 0) {
+          return (
+            <div key={name}>
               <div className="group2-child" key={name}>
                 <div
                   onClick={() => {
                     openClose(item);
                   }}
                 >
-                  <div className="group3-child">
-                    {hasPreClickId(preClickIdArr, name) ? (
-                      <div className="iconfont IconExpand2 icon-expand_3_1 ">
-                        <img
-                          src="https://app.static.wangxiao.cn/libs/images/arrow2_down.svg"
-                          alt=""
-                          className="arrow_up_down_icon"
-                        />
-                      </div>
-                    ) : (
-                      <div className="iconfont IconShrink2  icon-expand_3_2">
-                        <img
-                          src="https://app.static.wangxiao.cn/libs/images/arrow2_right.svg"
-                          alt=""
-                          className="arrow_up_down_icon"
-                        />
-                      </div>
-                    )}
-                    <span className="text1-child">{name}</span>
-                  </div>
+                  <CommonType2
+                    hasPreClickId={hasPreClickId}
+                    name={name}
+                    preview={false}
+                    speedRate={speedRate}
+                    spnum={spnum}
+                    index={index}
+                  />
                 </div>
                 <div className="group4-child">
                   {RenderProgress({ ...item, ...currentData })}
                 </div>
               </div>
-            );
-          }
-        })}
+              {hasPreClickId(name) ? (
+                <RecursionLevelChildren
+                  list={next}
+                  stats={stats}
+                  callback={callback}
+                />
+              ) : null}
+            </div>
+          );
+        } else {
+          // 展示单元数据
+          return nodeType === 'CU' || nodeType === 'SU' ? (
+            <div className={'group5-child'} key={name}>
+              <div
+                onClick={() =>
+                  (preview || isPurchase) &&
+                  callback &&
+                  callback({ ...item, ...currentData })
+                }
+              >
+                <div className="group6-child">
+                  <div className="children6-child">{renderIcon(item)}</div>
+                  <span className={'text4-child'}>{name}</span>
+                </div>
+                <div className="group7-child">
+                  {RenderProgress({ ...item, ...currentData })}
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="group2-child" key={name}>
+              <div
+                onClick={() => {
+                  openClose(item);
+                }}
+              >
+                <div className="group3-child">
+                  {hasPreClickId(name) ? (
+                    <div className="iconfont IconExpand2 icon-expand_3_1 ">
+                      <img
+                        src="https://app.static.wangxiao.cn/libs/images/arrow2_down.svg"
+                        alt=""
+                        className="arrow_up_down_icon"
+                      />
+                    </div>
+                  ) : (
+                    <div className="iconfont IconShrink2  icon-expand_3_2">
+                      <img
+                        src="https://app.static.wangxiao.cn/libs/images/arrow2_right.svg"
+                        alt=""
+                        className="arrow_up_down_icon"
+                      />
+                    </div>
+                  )}
+                  <span className="text1-child">{name}</span>
+                </div>
+              </div>
+              <div className="group4-child">
+                {RenderProgress({ ...item, ...currentData })}
+              </div>
+            </div>
+          );
+        }
+      })}
     </div>
   );
 }
