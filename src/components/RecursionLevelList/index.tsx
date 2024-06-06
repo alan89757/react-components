@@ -9,6 +9,7 @@ import './css/RecursionLevelList.css';
 interface IChapterCourse {
   name: string;
   nodeType: string;
+  type: number;
   preview?: boolean;
   next?: IChapterCourse[];
 }

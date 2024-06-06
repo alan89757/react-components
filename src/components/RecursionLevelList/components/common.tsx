@@ -58,7 +58,7 @@ export const renderIcon = (type: any) => {
 };
 
 // 资料/题库
-const RenderPracticeExamProgress = (item: any) => {
+export const RenderPracticeExamProgress = (item: any) => {
   const {
     speedRate = 0,
     done,
@@ -92,7 +92,7 @@ const RenderPracticeExamProgress = (item: any) => {
           <div className="group12-child">
             <div
               className="text9-child btn-pointer"
-              onClick={e => {
+              onClick={(e) => {
                 e.stopPropagation();
                 // (preview || isPurchase) && callback && callback(item);
               }}
@@ -117,7 +117,7 @@ const RenderPracticeExamProgress = (item: any) => {
 };
 
 // 视频
-const RenderVideoProgress = (item: any) => {
+export const RenderVideoProgress = (item: any) => {
   const { speedRate = 0, spnum = 0, isUnit, preview, isPurchase } = item;
   return (
     <div className="stats-item-wrap">
@@ -141,7 +141,7 @@ const RenderVideoProgress = (item: any) => {
           <div className="group12-child btn-pointer">
             <span
               className="text9-child"
-              onClick={e => {
+              onClick={(e) => {
                 e.stopPropagation();
                 // (preview || isPurchase) && callback && callback(item);
               }}
@@ -169,7 +169,7 @@ const RenderVideoProgress = (item: any) => {
   );
 };
 // 直播
-const RenderLiveProgress = (item: any) => {
+export const RenderLiveProgress = (item: any) => {
   const { isUnit, preview, isPurchase } = item;
   return (
     <div className="stats-item-wrap">
@@ -204,7 +204,7 @@ const RenderLiveProgress = (item: any) => {
           <div className="group12-child btn-pointer">
             <span
               className="text9-child"
-              onClick={e => {
+              onClick={(e) => {
                 e.stopPropagation();
                 // callback && callback();
               }}
@@ -228,7 +228,64 @@ const RenderLiveProgress = (item: any) => {
   );
 };
 
-// 渲染列表进度 类型 0资料,1视频 ,2 题库 3 考试,4直播
+// 0 资料(页-查看)
+const RenderData = (item: any) => {
+  const {
+    speedRate = 0,
+    done,
+    total,
+    spnum = 0,
+    isUnit,
+    preview,
+    isPurchase,
+  } = item;
+
+  return (
+    <div className="stats-item-wrap">
+      <div style={{ position: 'relative', top: 1.5 }}>
+        {/* <RoundedProgressBar
+          speedRate={speedRate}
+          width={40}
+          height={6}
+          color="#E51600"
+          trailColor={'rgba(0,0,0,0.06)'}
+        /> */}
+      </div>
+      <span className="text5-child">
+        {done || 0}/{total || 0}
+        {item.type == 0 ? '页' : '道'}
+      </span>
+
+      <span className="text6-child">{spnum}人关注</span>
+
+      {preview || isPurchase ? (
+        <div className="group12-child">
+          <div
+            className="text9-child btn-pointer"
+            onClick={(e) => {
+              e.stopPropagation();
+              // (preview || isPurchase) && callback && callback(item);
+            }}
+          >
+            {item.type == 1 ? (
+              <div
+                className="iconfont icon-playing1"
+                style={{ marginRight: '4px' }}
+              ></div>
+            ) : null}
+            {/* {renderText(item)} */}
+          </div>
+        </div>
+      ) : (
+        <div className="group13-child btn-pointer">
+          <div className="iconfont icon-lock_1  lock-icon-style"></div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// 渲染列表进度 类型 0 资料(页-查看), 1 视频（分钟-播放） ,2 题库(道-练习) 3 考试（道-考试）,4 直播（直播中-播放）
 export const RenderProgress = (item: any) => {
   switch (item.type) {
     case 0:

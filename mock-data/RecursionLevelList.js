@@ -47,7 +47,7 @@ export default [
             productName: '证书详情-去学习',
             speedRate: '0.4',
             spnum: 40,
-            type: 3,
+            type: 0,
             uncoil: true,
             isUnit: true,
           },
