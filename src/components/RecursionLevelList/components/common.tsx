@@ -1,4 +1,5 @@
 import React from 'react';
+import { RoundedProgressBar } from '../RoundedProgressBar';
 
 // 类型 0资料,1视频 ,2 题库 ,4直播
 export const renderIcon = (type: any) => {
@@ -57,7 +58,55 @@ export const renderIcon = (type: any) => {
   return null;
 };
 
-// 资料/题库
+// 资料
+export const RenderPracticeProgress = (item: any) => {
+  console.log('0033---', item);
+  const {
+    speedRate = 0,
+    done,
+    total,
+    spnum = 0,
+    isUnit,
+    preview,
+    isPurchase,
+  } = item;
+
+  return (
+    <div className="stats-item-wrap">
+      <span className="text5-child">
+        {done || 0}/{total || 0}页
+      </span>
+
+      <span className="text6-child">{spnum}人关注</span>
+
+      {preview || isPurchase ? (
+        <div className="group12-child">
+          <div
+            className="text9-child btn-pointer"
+            onClick={(e) => {
+              e.stopPropagation();
+              // (preview || isPurchase) && callback && callback(item);
+            }}
+          >
+            {item.type == 1 ? (
+              <div
+                className="iconfont icon-playing1"
+                style={{ marginRight: '4px' }}
+              ></div>
+            ) : null}
+            {/* {renderText(item)} */}
+          </div>
+        </div>
+      ) : (
+        <div className="group13-child btn-pointer">
+          <div className="iconfont icon-lock_1  lock-icon-style"></div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// 题库
 export const RenderPracticeExamProgress = (item: any) => {
   const {
     speedRate = 0,
@@ -116,60 +165,8 @@ export const RenderPracticeExamProgress = (item: any) => {
   );
 };
 
-// 视频
-export const RenderVideoProgress = (item: any) => {
-  const { speedRate = 0, spnum = 0, isUnit, preview, isPurchase } = item;
-  return (
-    <div className="stats-item-wrap">
-      {speedRate ? (
-        <div className="stats-speedrate">
-          {/* <RoundedProgressBar
-            speedRate={speedRate}
-            width={40}
-            height={6}
-            color="#E51600"
-            borderRadius={4}
-            trailColor={'rgba(0,0,0,0.06)'}
-          /> */}
-          <span className="text5">{speedRate * 100}%</span>
-        </div>
-      ) : null}
-      <span className="text6">{spnum}人关注</span>
-
-      {isUnit ? (
-        preview || isPurchase ? (
-          <div className="group12-child btn-pointer">
-            <span
-              className="text9-child"
-              onClick={(e) => {
-                e.stopPropagation();
-                // (preview || isPurchase) && callback && callback(item);
-              }}
-            >
-              {item.type == 1 ? (
-                <div
-                  className="iconfont icon-playing1"
-                  style={{ marginRight: '4px' }}
-                ></div>
-              ) : null}
-              {/* {renderText(item)} */}
-            </span>
-          </div>
-        ) : (
-          <div className="group13-child btn-pointer">
-            {/* <BaseIcon name="lock" size={18} style={currentStyles.baseIcon} /> */}
-            <div
-              className="iconfont icon-lock_1   lock-icon-style "
-              // onClick={() => callback && callback(item)}
-            ></div>
-          </div>
-        )
-      ) : null}
-    </div>
-  );
-};
-// 直播
-export const RenderLiveProgress = (item: any) => {
+// 4 直播（直播中-播放）
+export const RenderLive = (item: any) => {
   const { isUnit, preview, isPurchase } = item;
   return (
     <div className="stats-item-wrap">
@@ -215,7 +212,7 @@ export const RenderLiveProgress = (item: any) => {
                   style={{ marginRight: '4px' }}
                 ></div>
               ) : null}
-              {/* {renderText(item)} */}
+              {renderText(item)}
             </span>
           </div>
         ) : (
@@ -228,8 +225,8 @@ export const RenderLiveProgress = (item: any) => {
   );
 };
 
-// 0 资料(页-查看)
-const RenderData = (item: any) => {
+//3 考试（道-考试）
+const RenderExam = (item: any) => {
   const {
     speedRate = 0,
     done,
@@ -242,39 +239,168 @@ const RenderData = (item: any) => {
 
   return (
     <div className="stats-item-wrap">
-      <div style={{ position: 'relative', top: 1.5 }}>
-        {/* <RoundedProgressBar
+      {speedRate ? (
+        <RoundedProgressBar
           speedRate={speedRate}
           width={40}
           height={6}
           color="#E51600"
+          borderRadius={4}
           trailColor={'rgba(0,0,0,0.06)'}
-        /> */}
-      </div>
+        />
+      ) : null}
       <span className="text5-child">
-        {done || 0}/{total || 0}
-        {item.type == 0 ? '页' : '道'}
+        {total && done ? `${done}/${total}道` : ''}
       </span>
-
       <span className="text6-child">{spnum}人关注</span>
-
       {preview || isPurchase ? (
         <div className="group12-child">
+          <div className="text9-child btn-pointer">{renderText(item)}</div>
+        </div>
+      ) : (
+        <div className="group13-child btn-pointer">
+          <div className="iconfont icon-lock_1  lock-icon-style"></div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// 2 题库(道-练习)
+const RenderPractice = (item: any) => {
+  const {
+    speedRate = 0,
+    done,
+    total,
+    spnum = 0,
+    isUnit,
+    preview,
+    isPurchase,
+  } = item;
+
+  return (
+    <div className="stats-item-wrap">
+      {speedRate ? (
+        <RoundedProgressBar
+          speedRate={speedRate}
+          width={40}
+          height={6}
+          color="#E51600"
+          borderRadius={4}
+          trailColor={'rgba(0,0,0,0.06)'}
+        />
+      ) : null}
+      <span className="text5-child">
+        {total && done ? `${done}/${total}道` : ''}
+      </span>
+      <span className="text6-child">{spnum}人关注</span>
+      {preview || isPurchase ? (
+        <div className="group12-child">
+          <div className="text9-child btn-pointer">{renderText(item)}</div>
+        </div>
+      ) : (
+        <div className="group13-child btn-pointer">
+          <div className="iconfont icon-lock_1  lock-icon-style"></div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// 1 视频（分钟-播放）
+export const RenderVideo = (item: any) => {
+  console.log('RenderVideo---', item);
+  const { speedRate = 0, spnum = 0, isUnit, preview, isPurchase, done, total } = item;
+  return (
+    <div className="stats-item-wrap">
+      {speedRate ? (
+        <RoundedProgressBar
+          speedRate={speedRate}
+          width={40}
+          height={6}
+          color="#E51600"
+          borderRadius={4}
+          trailColor={'rgba(0,0,0,0.06)'}
+        />
+      ) : null}
+      <span className="text5-child">
+        {total && done ? `${done}/${total}分钟` : ''}
+      </span>
+      <span className="text6">{spnum}人关注</span>
+
+      {preview || isPurchase ? (
+        <div className="group12-child btn-pointer">
+          <span className="text9-child">
+            <div
+              className="iconfont icon-playing1"
+              style={{ marginRight: '4px' }}
+            ></div>
+            {renderText(item)}
+          </span>
+        </div>
+      ) : (
+        <div className="group13-child btn-pointer">
+          {/* 一把锁图标 */}
+          {/* <BaseIcon name="lock" size={18} style={currentStyles.baseIcon} /> */}
           <div
-            className="text9-child btn-pointer"
-            onClick={(e) => {
-              e.stopPropagation();
-              // (preview || isPurchase) && callback && callback(item);
-            }}
-          >
-            {item.type == 1 ? (
-              <div
-                className="iconfont icon-playing1"
-                style={{ marginRight: '4px' }}
-              ></div>
-            ) : null}
-            {/* {renderText(item)} */}
-          </div>
+            className="iconfont icon-lock_1   lock-icon-style "
+            // onClick={() => callback && callback(item)}
+          ></div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// 按钮文案
+// 类型 0资料,1视频 ,2 题库 3 考试 ,4直播
+const renderText = (type: any) => {
+  switch (type.type) {
+    case 0:
+      return '查看';
+    case 1:
+      return '播放';
+    case 2:
+      return '练习';
+    case 3:
+      return '考试';
+    case 4:
+      return '播放';
+  }
+  return '学习';
+};
+
+// 0 资料(页-查看)
+const RenderMaterial = (item: any) => {
+  const {
+    speedRate = 0,
+    done,
+    total,
+    spnum = 0,
+    isUnit,
+    preview,
+    isPurchase,
+  } = item;
+
+  return (
+    <div className="stats-item-wrap">
+      {speedRate ? (
+        <RoundedProgressBar
+          speedRate={speedRate}
+          width={40}
+          height={6}
+          color="#E51600"
+          borderRadius={4}
+          trailColor={'rgba(0,0,0,0.06)'}
+        />
+      ) : null}
+      <span className="text5-child">
+        {total && done ? `${done}/${total}页` : ''}
+      </span>
+      <span className="text6-child">{spnum}人关注</span>
+      {preview || isPurchase ? (
+        <div className="group12-child">
+          <div className="text9-child btn-pointer">{renderText(item)}</div>
         </div>
       ) : (
         <div className="group13-child btn-pointer">
@@ -287,16 +413,18 @@ const RenderData = (item: any) => {
 
 // 渲染列表进度 类型 0 资料(页-查看), 1 视频（分钟-播放） ,2 题库(道-练习) 3 考试（道-考试）,4 直播（直播中-播放）
 export const RenderProgress = (item: any) => {
+  console.log('0011---', item);
   switch (item.type) {
-    case 0:
-      return <RenderPracticeExamProgress {...item} />;
-    case 1:
-      return <RenderVideoProgress {...item} />;
-    case 2:
-    case 3:
-      return <RenderPracticeExamProgress {...item} />;
-    case 4:
-      return <RenderLiveProgress {...item} />;
+    case 0: // 资料
+      return <RenderMaterial {...item} />;
+    case 1: // 视频
+      return <RenderVideo {...item} />;
+    case 2: // 题库(练习)
+      return <RenderPractice {...item} />;
+    case 3: // 考试
+      return <RenderExam {...item} />;
+    case 4: // 直播
+      return <RenderLive {...item} />;
   }
   return null;
 };

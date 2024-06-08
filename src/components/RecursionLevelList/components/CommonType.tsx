@@ -10,7 +10,6 @@ interface Iprops {
   hasPreClickId: Function;
 }
 
-// 科目类型-样式不一样
 const CommonType = (props: Iprops) => {
   const { index, name, hasPreClickId, preview, speedRate, spnum } = props;
   return (

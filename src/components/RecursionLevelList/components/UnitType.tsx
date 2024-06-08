@@ -10,7 +10,6 @@ interface Iprops {
 
 // 单元类型：0资料,1视频 ,2 题库 3 考试,4直播
 const UnitType = (props: Iprops) => {
-  console.log('00111---', props);
   const { callback, name, type, item } = props;
   return (
     <div className={'group5-child'} key={name}>

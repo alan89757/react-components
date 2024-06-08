@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, { useState, useEffect } from 'react';
-import SubjectType from "./components/SubjectType"; // 科目类型
-import CommonType from "./components/CommonType"; // 普通类型
+import SubjectType from './components/SubjectType'; // 科目类型
+import CommonType from './components/CommonType'; // 普通类型
 import RecursionLevelChildren from './RecursionLevelChildren';
 import { assembleData } from './utils/index';
 import './css/RecursionLevelList.css';
@@ -58,7 +58,7 @@ export default function RecursionLevelList(props: IPropType) {
   return (
     <div className="page1">
       <div className="group1">
-        {list.length > 0 ?
+        {list.length > 0 ? (
           list.map((item: IChapterCourse, index: number) => {
             const { next, name, nodeType, preview = false } = item;
             // 学习进度
@@ -73,32 +73,41 @@ export default function RecursionLevelList(props: IPropType) {
                   >
                     {/* J - 科目类型 */}
                     {nodeType === 'J' ? (
-                      <SubjectType index={index} name={name} hasPreClickId={hasPreClickId} />
+                      <SubjectType
+                        index={index}
+                        name={name}
+                        hasPreClickId={hasPreClickId}
+                      />
                     ) : (
-                      <CommonType hasPreClickId={hasPreClickId} name={name} preview={preview} speedRate={speedRate} spnum={spnum} index={index} />
+                      <CommonType
+                        hasPreClickId={hasPreClickId}
+                        name={name}
+                        preview={preview}
+                        speedRate={speedRate}
+                        spnum={spnum}
+                        index={index}
+                      />
                     )}
                   </div>
                 </div>
                 {/* 是否展开 */}
-                {hasPreClickId(name) ? (
-                  next && next.length > 0 ? (
-                    // 无限递归
-                    <RecursionLevelChildren
-                      list={next}
-                      stats={stats}
-                      callback={callback}
-                    />
-                  ) : null
-                ) : null}
+                {hasPreClickId(name) && (
+                  <RecursionLevelChildren
+                    list={next}
+                    stats={stats}
+                    callback={callback}
+                  />
+                )}
               </div>
             );
-          }) : (
-            <div className="group15">
-              <div className="group16">
-                <span className="group18">课程内容正在制作中</span>
-              </div>
+          })
+        ) : (
+          <div className="group15">
+            <div className="group16">
+              <span className="group18">课程内容正在制作中</span>
             </div>
-          )}
+          </div>
+        )}
       </div>
     </div>
   );
