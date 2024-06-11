@@ -1,5 +1,5 @@
 /* eslint-disable */
-export function flatList(list:any, type:any) {
+export function flatList(list:any, type:any= '') {
   return list.map((item:any) => {
     let { next = [], units = [] } = item;
     if (next.length > 0) {
@@ -64,7 +64,6 @@ export function getProductIds(data:any, type = 'P') {
 
 // 产品树重新组装统计数据
 export function assembleData(item:any, statsList:any) {
-  console.log('00222---',   item);
   const current = statsList?.find((it:any) => {
     // J-科目类型 P-产品类型 C-章类型 S-节类型 CU-学习单元类型(章) SU-学习单元类型(节)
     // console.log(item.id === it.id && it.nodeType === item.nodeType)
