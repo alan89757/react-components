@@ -19,7 +19,7 @@ import { IPropType, IChapterCourse } from "./interface/index";
 */
 
 export default function RecursionLevelList(props: IPropType) {
-  const { list = [], callback, stats = [] } = props;
+  const { list = [], callback, statsList = [], onlyView = true } = props;
   const [preClickIdArr, setPreClickIdArr] = useState<string[]>([]);
 
   // 切换箭头打开/关闭
@@ -48,9 +48,9 @@ export default function RecursionLevelList(props: IPropType) {
       <div className="group1">
         {list.length > 0 ? (
           list.map((item: IChapterCourse, index: number) => {
-            const { next, name, nodeType, preview = false } = item;
+            const { next = [], name, nodeType, preview = false } = item;
             // 学习进度
-            const { speedRate = 0, spnum = 0 } = assembleData(item, stats);
+            const { speedRate = 0, spnum = 0 } = assembleData(item, statsList);
             return (
               <div key={name}>
                 <div className="group2">
@@ -81,8 +81,10 @@ export default function RecursionLevelList(props: IPropType) {
                 {/* 是否展开 */}
                 {hasPreClickId(name) && (
                   <RecursionLevelChildren
+                    key={name +  index}
+                    onlyView={onlyView}
                     list={next}
-                    stats={stats}
+                    statsList={statsList}
                     callback={callback}
                   />
                 )}

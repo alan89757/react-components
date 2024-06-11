@@ -9,7 +9,9 @@ export interface IChapterCourse {
 }
 
 export interface IPropType {
-  list: IChapterCourse[]; // 产品树
-  stats?: any[]; // 统计数据(实时的)
-  callback?: Function; // 回调函数，点击当前行自定义处理
+  list: IChapterCourse[]; // 接口使用缓存
+  statsList?: any[];  // 最新的统计数(覆盖部分缓存数据)
+  key: string; // 唯一key
+  callback?: Function; // 自定义最小层级点击事件回调函数
+  onlyView?: boolean;    // 无操作，只展示
 }

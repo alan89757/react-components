@@ -47,7 +47,7 @@ export const list = [
             productName: '证书详情-去学习',
             speedRate: '0.4',
             spnum: 40,
-            type: 4,
+            type: 1,
             uncoil: true,
             isUnit: true,
             done: 10,
@@ -67,33 +67,33 @@ export const list = [
 
 export const statsList =  [
   {
-      "id": "PROD100023485",
+      "id": "PROD100000261",
       "isPurchase": false,
-      "name": "不支持回访的直播",
+      "name": "我是产品类型",
       "nodeType": "P",
-      "speedRate": "0",
-      "spnum": 1
+      "speedRate": "0.6",
+      "spnum": 60
   },
   {
       "isPurchase": false,
-      "name": "不支持回访的直播",
+      "name": "证书详情-去学习22",
       "nodeType": "C",
-      "parentId": "PROD100023485",
+      "parentId": "PROD100000261",
       "parentName": "不支持回访的直播",
       "productId": "PROD100023485",
-      "speedRate": "0",
-      "spnum": 1
+      "speedRate": "0.7",
+      "spnum": 70
   },
   {
       "done": "0",
-      "id": "UNIT10205995",
+      "id": "UNIT10006447",
       "isPurchase": false,
-      "name": "不支持回访的直播",
+      "name": "我是单元",
       "nodeType": "CU",
       "parentName": "不支持回访的直播",
       "productId": "PROD100023485",
-      "speedRate": "0",
-      "spnum": 1,
-      "total": "0"
+      "speedRate": "0.8",
+      "spnum": 80,
+      "total": "100"
   }
 ];

@@ -167,7 +167,7 @@ export const RenderPracticeExamProgress = (item: any) => {
 
 // 4 直播（直播中-播放）
 export const RenderLive = (item: any) => {
-  const { isUnit, preview, isPurchase } = item;
+  const { isUnit, preview, isPurchase, onlyView } = item;
   return (
     <div className="stats-item-wrap">
       <span
@@ -196,7 +196,7 @@ export const RenderLive = (item: any) => {
           ? `${item.duration}分钟`
           : null}
       </span>
-      {isUnit ? (
+      {onlyView ? (
         preview || isPurchase ? (
           <div className="group12-child btn-pointer">
             <span
@@ -235,6 +235,7 @@ const RenderExam = (item: any) => {
     isUnit,
     preview,
     isPurchase,
+    onlyView,
   } = item;
 
   return (
@@ -253,21 +254,23 @@ const RenderExam = (item: any) => {
         {total && done ? `${done}/${total}道` : ''}
       </span>
       <span className="text6-child">{spnum}人关注</span>
-      {preview || isPurchase ? (
-        <div className="group12-child">
-          <div className="text9-child btn-pointer">{renderText(item)}</div>
-        </div>
-      ) : (
-        <div className="group13-child btn-pointer">
-          <div className="iconfont icon-lock_1  lock-icon-style"></div>
-        </div>
-      )}
+      {!onlyView ? (
+        preview || isPurchase ? (
+          <div className="group12-child">
+            <div className="text9-child btn-pointer">{renderText(item)}</div>
+          </div>
+        ) : (
+          <div className="group13-child btn-pointer">
+            <div className="iconfont icon-lock_1  lock-icon-style"></div>
+          </div>
+        )
+      ) : null}
     </div>
   );
 };
 
 // 2 题库(道-练习)
-const RenderPractice = (item: any) => {
+export const RenderPractice = (item: any) => {
   const {
     speedRate = 0,
     done,
@@ -275,6 +278,7 @@ const RenderPractice = (item: any) => {
     spnum = 0,
     isUnit,
     preview,
+    onlyView,
     isPurchase,
   } = item;
 
@@ -294,15 +298,17 @@ const RenderPractice = (item: any) => {
         {total && done ? `${done}/${total}道` : ''}
       </span>
       <span className="text6-child">{spnum}人关注</span>
-      {preview || isPurchase ? (
-        <div className="group12-child">
-          <div className="text9-child btn-pointer">{renderText(item)}</div>
-        </div>
-      ) : (
-        <div className="group13-child btn-pointer">
-          <div className="iconfont icon-lock_1  lock-icon-style"></div>
-        </div>
-      )}
+      {!onlyView ? (
+        preview || isPurchase ? (
+          <div className="group12-child">
+            <div className="text9-child btn-pointer">{renderText(item)}</div>
+          </div>
+        ) : (
+          <div className="group13-child btn-pointer">
+            <div className="iconfont icon-lock_1  lock-icon-style"></div>
+          </div>
+        )
+      ) : null}
     </div>
   );
 };
@@ -310,7 +316,16 @@ const RenderPractice = (item: any) => {
 // 1 视频（分钟-播放）
 export const RenderVideo = (item: any) => {
   console.log('RenderVideo---', item);
-  const { speedRate = 0, spnum = 0, isUnit, preview, isPurchase, done, total } = item;
+  const {
+    speedRate = 0,
+    spnum = 0,
+    isUnit,
+    preview,
+    isPurchase,
+    done,
+    total,
+    onlyView,
+  } = item;
   return (
     <div className="stats-item-wrap">
       {speedRate ? (
@@ -327,34 +342,24 @@ export const RenderVideo = (item: any) => {
         {total && done ? `${done}/${total}分钟` : ''}
       </span>
       <span className="text6">{spnum}人关注</span>
-
-      {preview || isPurchase ? (
-        <div className="group12-child btn-pointer">
-          <span className="text9-child">
-            <div
-              className="iconfont icon-playing1"
-              style={{ marginRight: '4px' }}
-            ></div>
-            {renderText(item)}
-          </span>
-        </div>
-      ) : (
-        <div className="group13-child btn-pointer">
-          {/* 一把锁图标 */}
-          {/* <BaseIcon name="lock" size={18} style={currentStyles.baseIcon} /> */}
-          <div
-            className="iconfont icon-lock_1   lock-icon-style "
-            // onClick={() => callback && callback(item)}
-          ></div>
-        </div>
-      )}
+      {!onlyView ? (
+        preview || isPurchase ? (
+          <div className="group12-child">
+            <div className="text9-child btn-pointer">{renderText(item)}</div>
+          </div>
+        ) : (
+          <div className="group13-child btn-pointer">
+            <div className="iconfont icon-lock_1  lock-icon-style"></div>
+          </div>
+        )
+      ) : null}
     </div>
   );
 };
 
 // 按钮文案
 // 类型 0资料,1视频 ,2 题库 3 考试 ,4直播
-const renderText = (type: any) => {
+export const renderText = (type: any) => {
   switch (type.type) {
     case 0:
       return '查看';
@@ -371,7 +376,7 @@ const renderText = (type: any) => {
 };
 
 // 0 资料(页-查看)
-const RenderMaterial = (item: any) => {
+export const RenderMaterial = (item: any) => {
   const {
     speedRate = 0,
     done,
@@ -379,6 +384,7 @@ const RenderMaterial = (item: any) => {
     spnum = 0,
     isUnit,
     preview,
+    onlyView,
     isPurchase,
   } = item;
 
@@ -398,33 +404,35 @@ const RenderMaterial = (item: any) => {
         {total && done ? `${done}/${total}页` : ''}
       </span>
       <span className="text6-child">{spnum}人关注</span>
-      {preview || isPurchase ? (
-        <div className="group12-child">
-          <div className="text9-child btn-pointer">{renderText(item)}</div>
-        </div>
-      ) : (
-        <div className="group13-child btn-pointer">
-          <div className="iconfont icon-lock_1  lock-icon-style"></div>
-        </div>
-      )}
+      {!onlyView ? (
+        preview || isPurchase ? (
+          <div className="group12-child">
+            <div className="text9-child btn-pointer">{renderText(item)}</div>
+          </div>
+        ) : (
+          <div className="group13-child btn-pointer">
+            <div className="iconfont icon-lock_1  lock-icon-style"></div>
+          </div>
+        )
+      ) : null}
     </div>
   );
 };
 
 // 渲染列表进度 类型 0 资料(页-查看), 1 视频（分钟-播放） ,2 题库(道-练习) 3 考试（道-考试）,4 直播（直播中-播放）
-export const RenderProgress = (item: any) => {
-  console.log('0011---', item);
+export const RenderProgress = (item: any, onlyView: boolean) => {
+  console.log('0011---', item, onlyView);
   switch (item.type) {
     case 0: // 资料
-      return <RenderMaterial {...item} />;
+      return <RenderMaterial {...item} onlyView={onlyView} />;
     case 1: // 视频
-      return <RenderVideo {...item} />;
+      return <RenderVideo {...item} onlyView={onlyView} />;
     case 2: // 题库(练习)
-      return <RenderPractice {...item} />;
+      return <RenderPractice {...item} onlyView={onlyView} />;
     case 3: // 考试
-      return <RenderExam {...item} />;
+      return <RenderExam {...item} onlyView={onlyView} />;
     case 4: // 直播
-      return <RenderLive {...item} />;
+      return <RenderLive {...item} onlyView={onlyView} />;
   }
   return null;
 };

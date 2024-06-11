@@ -6,11 +6,12 @@ interface Iprops {
   callback?: Function;
   type: number;
   item: any;
+  onlyView?: boolean;
 }
 
 // 单元类型：0资料,1视频 ,2 题库 3 考试,4直播
 const UnitType = (props: Iprops) => {
-  const { callback, name, type, item } = props;
+  const { callback, name, type, item, onlyView = true } = props;
   return (
     <div className={'group5-child'} key={name}>
       <div onClick={() => callback && callback()}>
@@ -18,7 +19,7 @@ const UnitType = (props: Iprops) => {
           <div className="children6-child">{renderIcon(type)}</div>
           <span className={'text4-child'}>{name}</span>
         </div>
-        <div className="group7-child">{RenderProgress(item)}</div>
+        <div className="group7-child">{RenderProgress(item, onlyView)}</div>
       </div>
     </div>
   );

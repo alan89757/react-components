@@ -1,15 +1,13 @@
 /* eslint-disable */
 import React, { useState, useEffect } from 'react';
-import { RoundedProgressBar } from './RoundedProgressBar';
 import { assembleData } from './utils/index';
-import { RenderProgress } from './components/common';
 import CommonType from './components/CommonType'; // 普通类型
 import UnitType from './components/UnitType'; // 普通类型
 import './css/RecurisonLevelChildRen.css';
 import { IPropType, IChapterCourse } from "./interface/index";
 
 export default function RecursionLevelChildren(props: IPropType) {
-  const { list = [], callback, stats = [] } = props;
+  const { list = [], callback, statsList = [], onlyView } = props;
   const [preClickIdArr, setPreClickIdArr] = useState<any>([]);
 
   // 箭头打开/收起
@@ -37,10 +35,9 @@ export default function RecursionLevelChildren(props: IPropType) {
   return (
     <div>
       {list.map((item: IChapterCourse, index: number) => {
-        console.log('item---', item)
         const { name, next, preview, isPurchase, isUnit, type } = item;
         // 学习进度
-        const currentData = assembleData(item, stats);
+        const currentData = assembleData(item, statsList);
         const { speedRate = 0, spnum = 0 } = currentData;
         if (next && next.length > 0) {
           return (
@@ -63,8 +60,9 @@ export default function RecursionLevelChildren(props: IPropType) {
               </div>
               {hasPreClickId(name) && (
                 <RecursionLevelChildren
+                  key={name + index}
                   list={next}
-                  stats={stats}
+                  statsList={statsList}
                   callback={callback}
                 />
               )}
@@ -76,6 +74,7 @@ export default function RecursionLevelChildren(props: IPropType) {
             <UnitType
               item={item}
               type={type}
+              onlyView={onlyView}
               callback={() => {
                 (preview || isPurchase) &&
                   callback &&
