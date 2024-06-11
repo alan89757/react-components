@@ -1,6 +1,6 @@
 import React from 'react';
 import { Meta, Story } from '@storybook/react';
-import list from "../mock-data/RecursionLevelList";
+import { list } from "../mock-data/RecursionLevelList";
 import { RecursionLevelList } from '../src';
 
 const meta: Meta = {

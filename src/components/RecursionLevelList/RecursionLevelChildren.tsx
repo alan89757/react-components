@@ -6,21 +6,7 @@ import { RenderProgress } from './components/common';
 import CommonType from './components/CommonType'; // 普通类型
 import UnitType from './components/UnitType'; // 普通类型
 import './css/RecurisonLevelChildRen.css';
-
-interface IChapterCourse {
-  name: string;
-  next?: IChapterCourse[];
-  nodeType: string;
-  type: number;
-  isPurchase?: boolean; // 是否购买
-  preview?: boolean;
-  isUnit?: boolean; // 是否是单元
-}
-interface IPropType {
-  list?: IChapterCourse[]; // 列表
-  stats: any[]; // 统计数据
-  callback?: Function; // 回调函数，点击单条数据调用，可自行处理跳转
-}
+import { IPropType, IChapterCourse } from "./interface/index";
 
 export default function RecursionLevelChildren(props: IPropType) {
   const { list = [], callback, stats = [] } = props;

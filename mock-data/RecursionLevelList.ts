@@ -1,4 +1,4 @@
-export default [
+export const list = [
   {
     id: 'PROD100000261',
     name: '证书详情-去学习11',
@@ -62,4 +62,38 @@ export default [
     spnum: 10,
     type: 1,
   },
+];
+
+
+export const statsList =  [
+  {
+      "id": "PROD100023485",
+      "isPurchase": false,
+      "name": "不支持回访的直播",
+      "nodeType": "P",
+      "speedRate": "0",
+      "spnum": 1
+  },
+  {
+      "isPurchase": false,
+      "name": "不支持回访的直播",
+      "nodeType": "C",
+      "parentId": "PROD100023485",
+      "parentName": "不支持回访的直播",
+      "productId": "PROD100023485",
+      "speedRate": "0",
+      "spnum": 1
+  },
+  {
+      "done": "0",
+      "id": "UNIT10205995",
+      "isPurchase": false,
+      "name": "不支持回访的直播",
+      "nodeType": "CU",
+      "parentName": "不支持回访的直播",
+      "productId": "PROD100023485",
+      "speedRate": "0",
+      "spnum": 1,
+      "total": "0"
+  }
 ];
