@@ -23,18 +23,16 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
 
-      - name: npm install, test, and build
-        run: |
-          npm install
-          npm run build
-
-      - name: Login to npm
-        run: npm adduser
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+      - name: Install dependencies
+        run: npm install
+          
+      - name: Build
+        run: npm run build
 
       - name: Publish to npm
-        run: npm publish
+        run: |
+          echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" > ~/.npmrc
+          npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       # - name: Install deps and build (with cache)
