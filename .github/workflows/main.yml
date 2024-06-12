@@ -27,7 +27,14 @@ jobs:
         run: |
           npm install
           npm run build
-          npm publish
+
+      - name: Login to npm
+        run: npm adduser
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+
+      - name: Publish to npm
+        run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       # - name: Install deps and build (with cache)
