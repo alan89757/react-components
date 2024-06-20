@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import '../dist/recursion-level-list.cjs.development.css'
-import { RecursionLevelList } from '../dist/index';
+import { RecursionLevelList, Welcome } from '../dist/index';
 import { list, statsList } from "../mock-data/RecursionLevelList";
 
 
@@ -16,7 +16,8 @@ const onlyView = true;
 const App = () => {
   return (
     <div>
-      <RecursionLevelList list={list} statsList={statsList} callback={callback} onlyView={onlyView} />
+      <Welcome username={'Alan'} />
+      {/* <RecursionLevelList list={list} statsList={statsList} callback={callback} onlyView={onlyView} /> */}
     </div>
   );
 };
