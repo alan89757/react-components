@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import '../dist/recursion-level-list.cjs.development.css'
+import '../dist/shop-factory-react.cjs.development.css'
 import { RecursionLevelList, Welcome } from '../dist/index';
 import { list, statsList } from "../mock-data/RecursionLevelList";
 
